@@ -2,9 +2,11 @@
 {% block body %}
 <table class="table table-striped">
     <tr><th>Melon Name</th><th>Quantity</th><th>Price</th><th>Total</th></tr>
-    {% for melon in melon_list %}
-    <tr><td>{{melon_list[melon][0]}}</td><td>{{melon_list[melon][2]}}</td><td>{{melon_list[melon][1]}}</td><td>{{melon_list[melon][2]*melon_list[melon][1]}}</td></tr>
-    {% endfor %}
+    {% if melon_list%}
+        {% for melon in melon_list %}
+        <tr><td>{{melon_list[melon][0]}}</td><td>{{melon_list[melon][2]}}</td><td>{{melon_list[melon][1]}}</td><td>{{melon_list[melon][2]*melon_list[melon][1]}}</td></tr>
+        {% endfor %} 
+    {% endif %}
 </table>
 <h3>Total: {{total_price}} </h3>
 <a href="/checkout" class="btn btn-large btn-primary">Check Out</a>

@@ -26,7 +26,8 @@ def show_melon(id):
     option to buy the melon."""
     melon = model.get_melon_by_id(id)
     print melon
-    user = session.get('user', None)
+    print type(melon)
+
     return render_template("melon_details.html",
                   display_melon = melon)
 
@@ -37,6 +38,7 @@ def shopping_cart():
     accompanying screenshots for details."""
     purchased_melon_list = {}
     total_price = 0
+    session['cart'] = session.get('cart', [])
     for melon_id in session['cart']:
         m = model.get_melon_by_id(melon_id)
         purchased_melon_list[melon_id] = purchased_melon_list.get(melon_id, [None, None, 0])
@@ -50,7 +52,8 @@ def shopping_cart():
     print purchased_melon_list
     print total_price
 
-
+    if not purchased_melon_list:
+        flash("Buy melons!")
 
     return render_template("cart.html", melon_list=purchased_melon_list, total_price=total_price)
     
@@ -86,15 +89,20 @@ def process_login():
     print email
     print password
 
-    customer = model.get_customer_by_email(email)
-    session['user'] = customer.givenname
 
-    print session['user']
+
+    customer = model.get_customer_by_email(email)
 
     if not customer:
 
         flash("Sorry! Login Error.")
         return redirect("/login")
+
+    session['user'] = customer.givenname
+
+    print session['user']
+
+    
 
 
     return redirect("/melons")
@@ -110,7 +118,10 @@ def checkout():
 
 @app.route("/logout")
 def logout(): 
+
     session['user'] = None
+    session['cart'] = []
+
     flash("User has logged out.")
     return redirect("/melons")  
 
