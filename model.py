@@ -53,8 +53,6 @@ def get_melons():
 
         melons.append(melon)
 
-    print melons
-
     return melons
 
 def get_melon_by_id(id):
@@ -89,8 +87,6 @@ def get_customer_by_email(email):
   cursor.execute(query, (email,))
 
   row = cursor.fetchone()
-  print query
-  print row
   
   if not row:
       return None
