@@ -40,16 +40,9 @@ def shopping_cart():
     """TODO: Display the contents of the shopping cart. The shopping cart is a
     list held in the session that contains all the melons to be added. Check
     accompanying screenshots for details."""
-    # session['cart'] = session.get('cart', [])
+
     tally = collections.Counter(session['cart'])
-
     purchased_melons = {m_id: model.get_melon_by_id(m_id) for m_id in tally}
-
-    print purchased_melons
-
-    #total_price = sum([purchased_melons[m_id].price * tally[m_id] for m_id in tally])
-
-    #print session['total']
 
     if not purchased_melons:
         flash("Buy melons!")
@@ -66,7 +59,7 @@ def add_to_cart(id):
     "Successfully added to cart" """
     
     session['cart'] = session.get('cart', []) + [id]
-    session['total'] = session.get('total', 0) + model.get_melon_by_id(id).price
+    session['total'] += model.get_melon_by_id(id).price
 
     print session
 
